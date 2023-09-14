@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import context from "../context";
+import { toast } from "react-toastify";
 
 export default function Home() {
 
@@ -29,7 +30,8 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="w-1/5 h-16 px-4 text-slate-500 bg-slate-200 rounded-r-lg border-l-2 border-solid text-xl border-slate-400"
+              disabled={!url?true:false}
+              className="disabled:opacity-70 w-1/5 h-16 px-4  text-slate-500 bg-slate-200 rounded-r-lg border-l-2 border-solid text-xl border-slate-400"
             >
               Check Your Website's Health
             </button>

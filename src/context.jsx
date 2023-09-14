@@ -4,7 +4,7 @@ const context = createContext();
 
 
 export const ContextProvider = ({children})=>{
-    const [url,setUrl] = useState("ok");
+    const [url,setUrl] = useState();
     return(
     <context.Provider value={{url,setUrl}}>
         {children}

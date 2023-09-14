@@ -13,7 +13,10 @@ const useGetScreenshot =  (screenshot_data)=>{
                 'content-type': 'application/json'
             }
         })    
-        setScreenShot(data?.tasks[0]?.result[0]?.items[0]?.image)
+        if (data?.tasks_error) {
+            setScreenShot(data);
+            return
+        }setScreenShot(data?.tasks[0]?.result[0]?.items[0]?.image)
     }
 
     useEffect(()=>{
