@@ -1,39 +1,21 @@
-import axios from "axios";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import context from "../context";
 
 export default function Home() {
 
-    const [url,setUrl] = useState()
-    const post_data = [{
-        url,
-        enable_javascript: true,
-        enable_browser_rendering:true,
-        check_spell:true
-    }]
-    console.log(post_data);
+    const {url,setUrl} = useContext(context)
+    const navigate = useNavigate()
     const handleSubmit = async(e)=>{
         e.preventDefault();
-        const data =await axios.post("https://api.dataforseo.com/v3/on_page/instant_pages",post_data,{
-            auth: {
-                username: import.meta.env.VITE_USERNAME,
-                password: import.meta.env.VITE_PASSWORD
-              },
-            headers:{
-                'content-type': 'application/json'
-            }
-        })
-        console.log(data);
-    }
-    console.log(import.meta.env.VITE_USERNAME);
+        navigate("/report")
+     }
+    
 
   return (
     <>
       <div>
-        <div className="navbar h-36 flex items-center justify-center mx-8 mt-8 rounded-md bg-slate-200 border-2 border-solid border-slate-400">
-          <div>
-            <img src="./growthfyi_logo.png" alt="" className="h-28" />
-          </div>
-        </div>
+        
         <div className="mt-8 mx-8 border-2 border-solid rounded-md border-slate-400 flex justify-center items-center flex-col mb-10">
           <form onSubmit={handleSubmit} className="w-5/6 h-24 mx-8 mt-6 flex items-center ">
             <input
