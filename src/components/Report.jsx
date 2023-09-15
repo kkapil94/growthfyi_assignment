@@ -10,7 +10,6 @@ import Categories from "./Categories";
 
 export default function Report() {
   const url = sessionStorage.getItem("url")
-  console.log(url);
   const navigate = useNavigate();
   const onPageDataArray = [];
   const onPageDataArray2 = [];
@@ -46,8 +45,7 @@ export default function Report() {
   ];
   const screenshot = useGetScreenshot(screenshot_data);
   const taskData = useGetReport(task_post_data);
-  const categoriesData = useGetCategoriesReport(light_house_post_data);
-  console.log(categoriesData,"i am");
+  const categoriesData = useGetCategoriesReport(light_house_post_data)
   const onPageChecks = taskData?.tasks[0]?.result[0]?.items[0]?.checks;
   for (const key in onPageChecks) {
     const newObj = {};
@@ -64,11 +62,10 @@ export default function Report() {
   for (const key in onPageData?.content) {
     const newObj = {};
     newObj[key] = onPageData?.content[key];
-    console.log(newObj);
     onPageDataArray2.push(newObj);
   }
   useEffect(()=>{
-    if (screenshot?.tasks_error == 1 || screenshot?.tasks[0]?.result?.error_message) {
+    if (screenshot?.tasks_error == 1 || screenshot?.tasks[0]?.result?.error_message || taskData?.tasks[0]?.result) {
       toast.error("Enter valid url");
       navigate("/");
     }

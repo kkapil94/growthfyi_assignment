@@ -2,7 +2,6 @@ import { CChart } from "@coreui/react-chartjs";
 
 export default function Chart({liveData,taskData}) {
     const mainData = liveData?.categories
-    console.log(mainData['best-practices'].score,"i am score");
   return (
     <>
       <CChart
