@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const useGetCategoriesReport = (post_data) => {
-  let id;
+  let id
   const [report, setReport] = useState(null);
   const getCategoriesData = async () => {
     const postRes = await axios.post(
@@ -42,6 +42,9 @@ const useGetCategoriesReport = (post_data) => {
 
   useEffect(() => {
     getCategoriesData();
+    return(
+      clearTimeout(timeout)
+    )
   }, []);
   return report;
 };

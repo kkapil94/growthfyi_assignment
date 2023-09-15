@@ -52,6 +52,7 @@ export default function Report() {
     newObj[key] = newObj[key];
     checksArray.push(newObj);
   }
+  console.log(checksArray);
   const onPageData = taskData?.tasks[0]?.result[0]?.items[0]?.meta;
   for (const key in onPageData) {
     const newObj = {};
@@ -150,7 +151,7 @@ export default function Report() {
                   </h2>
                   <ol className="list-decimal pl-12">
                     {onPageData?.htags?.h1?.map((item) => (
-                      <li className="text-slate-700 text-2xl">{item}</li>
+                      <li className="text-slate-700 text-xl">{item}</li>
                     ))}
                   </ol>
                 </div>
@@ -160,7 +161,7 @@ export default function Report() {
                   </h2>
                   <ol className="list-decimal pl-12">
                     {onPageData?.htags?.h2?.map((item) => (
-                      <li className="text-slate-700 text-2xl">{item}</li>
+                      <li className="text-slate-700 text-xl">{item}</li>
                     ))}
                   </ol>
                 </div>
