@@ -3,7 +3,6 @@ import Home from "./components/Home";
 import Report from "./components/Report";
 import Header from "./components/Header";
 import 'react-toastify/dist/ReactToastify.css';
-import { ContextProvider } from "./context";
 import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
@@ -26,7 +25,6 @@ const router = createBrowserRouter([
 function AppLayout() {
   return (
     <>
-      <ContextProvider>
         <Header />
         <Outlet />
         <ToastContainer
@@ -39,7 +37,6 @@ function AppLayout() {
         draggable
         theme="dark"
         />
-      </ContextProvider>
     </>
   );
 }

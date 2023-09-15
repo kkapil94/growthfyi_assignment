@@ -1,14 +1,12 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import context from "../context";
-import { toast } from "react-toastify";
 
 export default function Home() {
-
-    const {url,setUrl} = useContext(context)
+    const [url,setUrl] = useState(null)
     const navigate = useNavigate()
     const handleSubmit = async(e)=>{
         e.preventDefault();
+        sessionStorage.setItem("url",url)
         navigate("/report")
      }
     
