@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 const useGetCategoriesReport = (post_data) => {
   let id
+  let intervalId;
   const [report, setReport] = useState(null);
   const getCategoriesData = async () => {
     const postRes = await axios.post(
@@ -19,7 +20,8 @@ const useGetCategoriesReport = (post_data) => {
       }
     );
     id = postRes?.data?.tasks[0]?.id;
-    const func = async () => {
+    intervalId = setInterval(func, 5000);
+    async function func(){
       const { data } = await axios.get(
         `https://api.dataforseo.com/v3/on_page/lighthouse/task_get/json/${id}`,
         {
@@ -32,19 +34,20 @@ const useGetCategoriesReport = (post_data) => {
           },
         }
       );
-      if (data?.tasks[0]?.result) {
+      if (data?.tasks[0]?.status_message == "Task Not Found.") {
+        clearInterval(intervalId);
+        return
+      }
+
+      if (data?.tasks[0]?.result[0]) {
         setReport(data);
-        clearInterval(timeout);
+        clearInterval(intervalId);
       }
     };
-    const timeout = setInterval(func, 3000);
   };
 
   useEffect(() => {
     getCategoriesData();
-    return(
-      clearTimeout(timeout)
-    )
   }, []);
   return report;
 };

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
     const [url,setUrl] = useState(null)
     const navigate = useNavigate()
-    const handleSubmit = async(e)=>{
+    const handleSubmit = (e)=>{
         e.preventDefault();
         sessionStorage.setItem("url",url)
         navigate("/report")

@@ -5,8 +5,6 @@ import {  useEffect } from "react";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import useGetCategoriesReport from "../utils/useGetCategoriesReport";
-import taskData from "../../taskData.json"
-import categoriesData from "../../categoriesData.json"
 import Chart from "./Chart";
 import Categories from "./Categories";
 
@@ -16,7 +14,9 @@ export default function Report() {
   const onPageDataArray = [];
   const onPageDataArray2 = [];
   const checksArray = [];
+  let categories;
   let target;
+  let onPageData;
   if (url?.slice(0, 8) == "https://") {
     target = url;
   } else {
@@ -45,35 +45,36 @@ export default function Report() {
       for_mobile: true,
     },
   ];
-  // const screenshot = useGetScreenshot(screenshot_data);
-  // const taskData = useGetReport(task_post_data);
-  // const categoriesData = useGetCategoriesReport(light_house_post_data)
-  const onPageChecks = taskData?.tasks[0]?.result[0]?.items[0]?.checks;
-  for (const key in onPageChecks) {
-    const newObj = {};
-    newObj[key] = newObj[key];
-    checksArray.push(newObj);
+  const screenshot = useGetScreenshot(screenshot_data);
+  const taskData = useGetReport(task_post_data);
+  const categoriesData = useGetCategoriesReport(light_house_post_data)
+  if (categoriesData) {
+    
+    const onPageChecks = taskData?.tasks[0]?.result[0]?.items[0]?.checks;
+    for (const key in onPageChecks) {
+      const newObj = {};
+      newObj[key] = newObj[key];
+      checksArray.push(newObj);
+    }
+    onPageData = taskData?.tasks[0]?.result[0]?.items[0]?.meta;
+    for (const key in onPageData) {
+      const newObj = {};
+      newObj[key] = onPageData[key];
+      onPageDataArray.push(newObj);
+    }
+    categories = categoriesData?.tasks[0]?.result[0]?.categories;
+    for (const key in onPageData?.content) {
+      const newObj = {};
+      newObj[key] = onPageData?.content[key];
+      onPageDataArray2.push(newObj);
+    }
   }
-  console.log(checksArray);
-  const onPageData = taskData?.tasks[0]?.result[0]?.items[0]?.meta;
-  for (const key in onPageData) {
-    const newObj = {};
-    newObj[key] = onPageData[key];
-    onPageDataArray.push(newObj);
-  }
-  const categories = categoriesData?.tasks[0]?.result[0]?.categories;
-  for (const key in onPageData?.content) {
-    const newObj = {};
-    newObj[key] = onPageData?.content[key];
-    onPageDataArray2.push(newObj);
-  }
-  // useEffect(()=>{
-  //   if (screenshot?.tasks_error == 1 || screenshot?.tasks[0]?.result?.error_message || taskData?.tasks[0]?.result) {
-  //     toast.error("Enter valid url");
-  //     navigate("/");
-  //   }
-  // },[])
-const screenshot = true
+  useEffect(()=>{
+    if (taskData?.tasks[0]?.status_message == "Invalid Field: 'url - Domain Not Found'.") {
+      navigate("/")
+      toast.error("Please enter valid url!")
+    }
+  })
   return (
     <>
       {!screenshot || !taskData||!categoriesData  ? (
@@ -82,7 +83,7 @@ const screenshot = true
         <div className="mt-12 xs:max-md:mt-4 mx-8 xs:max-md:mx-2 border-2 xs:max-md:border-none border-solid border-slate-400">
           <div className="w-full mt-8 mb-12 xs:max-md:mb-2 flex xs:max-md:flex-col xs:max-md:gap-12 items-center ">
             <div className="w-6/12 xs:max-md:w-full flex justify-center">
-              <img src="./web_img.png" alt="" className="w-[95%] object-contain" />
+              <img src={screenshot} alt="" className="w-[95%] object-contain" />
             </div>
             <div className="w-6/12 xs:max-md:w-full flex justify-center">
               <Chart
@@ -149,7 +150,7 @@ const screenshot = true
               <div className="flex xs:max-md:flex-col gap-4">
                 <div className="w-6/12 xs:max-md:w-full h-fit border-2 border-solid border-slate-400 p-8 xs:max-md:p-2 rounded-2xl bg-slate-200">
                   <h2 className="text-3xl md:max-xl:text-2xl xs:max-md:text-lg mb-6 xs:max-md:mb-2 text-slate-500">
-                    We Found #{onPageData?.htags?.h1?.length} H1 tag
+                    We Found #{onPageData?.htags?.h1?.length?onPageData?.htags?.h1?.length:0} H1 tag
                   </h2>
                   <ol className="list-decimal pl-12">
                     {onPageData?.htags?.h1?.map((item) => (
@@ -157,9 +158,9 @@ const screenshot = true
                     ))}
                   </ol>
                 </div>
-                <div className="w-6/12 xs:max-md:w-full border-2 border-solid border-slate-400 p-8 rounded-2xl bg-slate-200 xs:max-md:p-2">
+                <div className="w-6/12 xs:max-md:w-full border-2 h-fit border-solid border-slate-400 p-8 rounded-2xl bg-slate-200 xs:max-md:p-2">
                   <h2 className="text-3xl md:max-xl:text-2xl xs:max-md:text-lg mb-6 xs:max-md:mb-2 text-slate-500">
-                    We Found #{onPageData?.htags?.h2?.length} H2 tag
+                    We Found #{onPageData?.htags?.h2?.length?onPageData?.htags?.h2?.length:0} H2 tag
                   </h2>
                   <ol className="list-decimal pl-12">
                     {onPageData?.htags?.h2?.map((item) => (
