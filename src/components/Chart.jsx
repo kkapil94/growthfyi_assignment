@@ -5,7 +5,7 @@ export default function Chart({liveData,taskData}) {
   return (
     <>
       <CChart
-        className="w-[32rem] flex flex-col items-center"
+        className="w-[85%] flex flex-col items-center"
         type="polarArea"
         data={{
           labels: ["On-Page Score", "Performance", "SEO", "Best Practices"],

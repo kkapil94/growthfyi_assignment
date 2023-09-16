@@ -5,6 +5,8 @@ import {  useEffect } from "react";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
 import useGetCategoriesReport from "../utils/useGetCategoriesReport";
+import taskData from "../../taskData.json"
+import categoriesData from "../../categoriesData.json"
 import Chart from "./Chart";
 import Categories from "./Categories";
 
@@ -43,9 +45,9 @@ export default function Report() {
       for_mobile: true,
     },
   ];
-  const screenshot = useGetScreenshot(screenshot_data);
-  const taskData = useGetReport(task_post_data);
-  const categoriesData = useGetCategoriesReport(light_house_post_data)
+  // const screenshot = useGetScreenshot(screenshot_data);
+  // const taskData = useGetReport(task_post_data);
+  // const categoriesData = useGetCategoriesReport(light_house_post_data)
   const onPageChecks = taskData?.tasks[0]?.result[0]?.items[0]?.checks;
   for (const key in onPageChecks) {
     const newObj = {};
@@ -65,24 +67,24 @@ export default function Report() {
     newObj[key] = onPageData?.content[key];
     onPageDataArray2.push(newObj);
   }
-  useEffect(()=>{
-    if (screenshot?.tasks_error == 1 || screenshot?.tasks[0]?.result?.error_message || taskData?.tasks[0]?.result) {
-      toast.error("Enter valid url");
-      navigate("/");
-    }
-  },[])
-
+  // useEffect(()=>{
+  //   if (screenshot?.tasks_error == 1 || screenshot?.tasks[0]?.result?.error_message || taskData?.tasks[0]?.result) {
+  //     toast.error("Enter valid url");
+  //     navigate("/");
+  //   }
+  // },[])
+const screenshot = true
   return (
     <>
       {!screenshot || !taskData||!categoriesData  ? (
         <Loader />
       ) : (
-        <div className="mt-12 mx-8 border-2 border-solid border-slate-400">
-          <div className="w-full mt-8 mb-12 flex items-center ">
-            <div className="w-6/12 flex justify-center">
-              <img src={screenshot} alt="" className="w-5/6 object-contain" />
+        <div className="mt-12 xs:max-md:mt-4 mx-8 xs:max-md:mx-2 border-2 xs:max-md:border-none border-solid border-slate-400">
+          <div className="w-full mt-8 mb-12 xs:max-md:mb-2 flex xs:max-md:flex-col xs:max-md:gap-12 items-center ">
+            <div className="w-6/12 xs:max-md:w-full flex justify-center">
+              <img src="./web_img.png" alt="" className="w-[95%] object-contain" />
             </div>
-            <div className="w-6/12 flex justify-center">
+            <div className="w-6/12 xs:max-md:w-full flex justify-center">
               <Chart
                 liveData={categoriesData?.tasks[0]?.result[0]}
                 taskData={taskData?.tasks[0]?.result[0]?.items[0]?.onpage_score}
@@ -90,34 +92,34 @@ export default function Report() {
             </div>
           </div>
           {!taskData||!categoriesData?<Loader/>:<div>
-            <div id="on-page" className="mb-16">
+            <div id="on-page" className="mb-16 ">
               <div className="flex items-center justify-center">
-                <div className="h-[2px] w-40 bg-slate-200"></div>
-                <h2 className="text-4xl mx-5 text-slate-200 text-center">
+                <div className="h-[2px] w-40 xs:max-md:w-16 bg-slate-200"></div>
+                <h2 className="text-4xl xs:max-md:text-lg mx-5 xs:max-md:mx-1 text-slate-200 text-center">
                   On-Page Results
                 </h2>
-                <div className="h-[2px] w-40 bg-slate-200"></div>
+                <div className="h-[2px] w-40 xs:max-md:w-16 bg-slate-200"></div>
               </div>
               <div>
                 {onPageDataArray.length && (
-                  <div className="grid grid-cols-4 gap-8 mx-16 mt-20">
+                  <div className="grid grid-cols-4 md:max-lg:grid-cols-3 xs:max-md:grid-cols-2  gap-4 xs:max-md:gap-1 mx-16 md:max-lg:mx-4 xs:max-md:mx-1 xs:max-md:mt-4 mt-20">
                     {onPageDataArray.slice(9, 16).map((item) => (
-                      <div className="border-2  border-solid rounded-2xl border-slate-200 flex flex-col justify-center items-center h-32">
-                        <h6 className="text-4xl text-slate-300">
+                      <div className="border-2 xs:max-md:h-14 border-solid rounded-2xl xs:max-md:rounded-lg border-slate-200 flex flex-col justify-center items-center md:max-2xl:h-24">
+                        <h6 className="text-3xl xs:max-md:text-lg text-slate-300 xs:max-md:leading-4">
                           {item[Object.keys(item)[0]]}
                         </h6>
-                        <h6 className="text-2xl text-slate-200">
+                        <h6 className="text-xl xs:max-md:text-sm text-slate-200 xs:max-md:leading-4">
                           {Object.keys(item)[0].replace(/\_/g, " ")}
                         </h6>
                       </div>
                     ))}
                     {onPageDataArray2.length &&
                       onPageDataArray2.map((item) => (
-                        <div className="border-2  border-solid rounded-2xl border-slate-200 flex flex-col justify-center items-center h-32">
-                          <h6 className="text-4xl text-slate-300">
-                            {Number(item[Object.keys(item)[0]]).toPrecision(1)}
+                        <div className="border-2 xs:max-md:h-14  border-solid rounded-2xl xs:max-md:rounded-lg border-slate-200 flex flex-col justify-center items-center md:max-2xl:h-24">
+                          <h6 className="text-3xl xs:max-md:text-lg text-slate-300 xs:max-md:leading-4">
+                            {Number(item[Object.keys(item)[0]]).toFixed(2)}
                           </h6>
-                          <h6 className="text-2xl text-slate-200 px-4 text-center">
+                          <h6 className="text-xl xs:max-md:text-sm text-slate-200 text-center xs:max-md:leading-4">
                             {Object.keys(item)[0].replace(/\_/g, " ")}
                           </h6>
                         </div>
@@ -127,14 +129,14 @@ export default function Report() {
               </div>
             </div>
             <div id="checks">
-              <div className="grid grid-cols-3 mx-16 gap-8">
+              <div className="grid grid-cols-3 xs:max-md:grid-cols-2 mx-16 xs:max-md:mx-1 md:max-lg:mx-4 xs:max-md:gap-1 gap-4">
                 {checksArray.slice(0, 25).map((item) => (
-                  <div className="flex border-2 gap-4 border-solid rounded-xl border-slate-200 h-16 bg-slate-100">
-                    <div className="flex items-center justify-center w-12">
+                  <div className="flex border-2 gap-4  xs:max-md:gap-1 border-solid rounded-xl xs:max-md:rounded-md border-slate-200 h-16 xs:max-md:h-14 bg-slate-100">
+                    <div className="flex items-center justify-center w-12 xs:max-md:w-4 md:max-xl:w-8  xs:max-md:text-xs">
                       {item[Object.keys(item)[0]] ? "✅" : "❌"}
                     </div>
-                    <div className="flex items-center justify-center ">
-                      <h3 className="text-2xl text-slate-500">
+                    <div className="flex items-center ">
+                      <h3 className="text-xl xs:max-md:text-sm md:max-lg:text-lg text-slate-500 xs:max-md:leading-4">
                         {Object.keys(item)[0].replace(/\_/g, " ")}
                       </h3>
                     </div>
@@ -142,26 +144,26 @@ export default function Report() {
                 ))}
               </div>
             </div>
-            <div id="h-tags" className="mx-16 mt-11 mb-24">
-              <h3 className="text-5xl mb-8 text-slate-200">H - tags</h3>
-              <div className="flex gap-4">
-                <div className="w-6/12 h-fit border-2 border-solid border-slate-400 p-8 rounded-2xl bg-slate-200">
-                  <h2 className="text-3xl mb-6 text-slate-500">
+            <div id="h-tags" className="mx-16 xs:max-md:mx-1  md:max-lg:mx-4 mt-11 xs:max-md:mt-4 mb-24 xs:max-md:mb-4">
+              <h3 className="text-4xl xs:max-md:text-2xl mb-8 md:max-xl:text-4xl xs:max-md:mb-4 text-slate-200">H - tags</h3>
+              <div className="flex xs:max-md:flex-col gap-4">
+                <div className="w-6/12 xs:max-md:w-full h-fit border-2 border-solid border-slate-400 p-8 xs:max-md:p-2 rounded-2xl bg-slate-200">
+                  <h2 className="text-3xl md:max-xl:text-2xl xs:max-md:text-lg mb-6 xs:max-md:mb-2 text-slate-500">
                     We Found #{onPageData?.htags?.h1?.length} H1 tag
                   </h2>
                   <ol className="list-decimal pl-12">
                     {onPageData?.htags?.h1?.map((item) => (
-                      <li className="text-slate-700 text-xl">{item}</li>
+                      <li className="text-slate-700 text-xl xs:max-md:text-sm">{item}</li>
                     ))}
                   </ol>
                 </div>
-                <div className="w-6/12 border-2 border-solid border-slate-400 p-8 rounded-2xl bg-slate-200">
-                  <h2 className="text-3xl mb-6 text-slate-500">
+                <div className="w-6/12 xs:max-md:w-full border-2 border-solid border-slate-400 p-8 rounded-2xl bg-slate-200 xs:max-md:p-2">
+                  <h2 className="text-3xl md:max-xl:text-2xl xs:max-md:text-lg mb-6 xs:max-md:mb-2 text-slate-500">
                     We Found #{onPageData?.htags?.h2?.length} H2 tag
                   </h2>
                   <ol className="list-decimal pl-12">
                     {onPageData?.htags?.h2?.map((item) => (
-                      <li className="text-slate-700 text-xl">{item}</li>
+                      <li className="text-slate-700 text-xl xs:max-md:text-sm">{item}</li>
                     ))}
                   </ol>
                 </div>
