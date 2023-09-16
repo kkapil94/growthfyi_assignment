@@ -55,7 +55,7 @@ export default function Home() {
               </div>
               <p className="md:max-2xl:w-6/12 lg:max-2xl:text-xl md:max-lg:text:lg text-slate-200 lg:max-xl:leading-7 xl:max-2xl:leading-8 md:max-lg:leading-6 md:max-2xl:pr-8 text-justify">
               The Seobility SEO Checker identifies errors and SEO issues in your meta-information, such as:
-              <ul className="list-image-[url(./list_img.png)] pl-6">
+              <ul className="list-disc pl-6">
                 <li>meta titles and descriptions that are too short or too long for the search result snippet</li>
                 <li>meta tags that prevent search engines from indexing your website</li>
                 <li>missing canonical links</li>
